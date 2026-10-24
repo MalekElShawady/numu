@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نمو | استطلاع أولياء الأمور</title>
+<meta name="theme-color" content="#0e4a40">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12302b;--mut:#5d7a72;--paper:#f2f8f3;--card:#ffffff;--line:#d3e4d9;--soft:#e2f2e7;
+  --sprout:#27905f;--deep:#0e4a40;--sun:#f5c842;--sunink:#3b2f05;--coral:#e8664a;--ring:#f5c842;
+  --h:"Readex Pro","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --b:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e6f3ec;--mut:#8fb1a6;--paper:#0c1916;--card:#132622;--line:#24423a;--soft:#1a3a31;
+  --sprout:#4cc58b;--deep:#082f28;--coral:#ff8a6d;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--b);font-size:1.02rem;line-height:1.85;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--h);margin:0;line-height:1.35}
+[hidden]{display:none!important}
+
+/* ---------- الغلاف ---------- */
+.hero{position:relative;overflow:hidden;background:var(--deep);color:#f3fbf6;padding:34px 22px 0;min-height:100svh;display:flex;flex-direction:column}
+.hero .sun{position:absolute;inset-block-start:-70px;inset-inline-start:-60px;width:230px;height:230px;border-radius:50%;background:var(--sun);opacity:.95}
+.hero .sun::after{content:"";position:absolute;inset:-34px;border-radius:50%;border:2px dashed rgba(245,200,66,.45)}
+.hero-in{position:relative;max-width:560px;margin:0 auto;width:100%;flex:1;display:flex;flex-direction:column}
+.brand{font-family:var(--h);font-weight:700;font-size:clamp(4.2rem,22vw,7rem);line-height:1;margin:150px 0 6px;letter-spacing:-1px}
+.tag{font-family:var(--h);font-weight:500;font-size:1.2rem;color:var(--sun);margin:0 0 18px}
+.lead{font-size:1.04rem;max-width:34em;margin:0 0 22px;color:#d6ece1}
+.facts{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px;padding:0;list-style:none}
+.facts li{border:1px solid rgba(255,255,255,.28);border-radius:99px;padding:4px 14px;font-size:.92rem}
+.go{align-self:flex-start;background:var(--sun);color:var(--sunink);border:0;border-radius:16px;padding:15px 34px;font:600 1.1rem var(--h);cursor:pointer;transition:transform .15s}
+.go:active{transform:scale(.97)}
+.hero .ground{margin-top:auto;display:block;width:calc(100% + 44px);margin-inline:-22px;height:auto}
+.privacy{font-size:.85rem;color:#a9cbbd;margin:16px 0 0}
+
+/* ---------- الاستبيان ---------- */
+#survey{max-width:620px;margin:0 auto;padding:0 14px 40px}
+.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);padding:calc(8px + env(safe-area-inset-top,0px)) 4px 10px;display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--line)}
+.top svg{width:52px;height:60px;flex:none}
+.top .meta{flex:1;min-width:0}
+.top .row1{display:flex;justify-content:space-between;font-size:.88rem;color:var(--mut)}
+.top .row1 b{color:var(--ink);font-family:var(--h);font-weight:600}
+.bar{height:8px;border-radius:8px;background:var(--soft);margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--sprout);border-radius:8px;transition:width .4s}
+.step h2{font-size:1.45rem;margin:26px 4px 2px}
+.step .sub{color:var(--mut);margin:0 4px 16px;font-size:.96rem}
+.note{background:var(--soft);border-radius:18px;padding:14px 16px;margin-bottom:14px;font-size:.96rem}
+.q{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:16px 14px 10px;margin-bottom:14px;scroll-margin-top:96px}
+.q.bad{border-color:var(--coral);background:color-mix(in srgb,var(--coral) 8%,var(--card))}
+.q .t{display:flex;gap:10px;font-family:var(--h);font-weight:600;font-size:1.02rem;line-height:1.7;margin:0 2px 10px}
+.q .t em{font-style:normal;flex:none;min-width:30px;height:30px;border-radius:10px;background:var(--soft);color:var(--sprout);display:grid;place-items:center;font-size:.9rem;margin-top:2px}
+.q .hint{display:block;font-family:var(--b);font-weight:400;font-size:.88rem;color:var(--mut)}
+.opts{display:grid;gap:8px}
+.o{position:relative;display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:11px 14px;cursor:pointer;background:var(--paper);transition:background .15s,border-color .15s}
+.o input{position:absolute;opacity:0;pointer-events:none}
+.o .mk{width:22px;height:22px;flex:none;border:2px solid var(--mut);border-radius:50%;display:grid;place-items:center}
+.multi .o .mk{border-radius:7px}
+.o .mk::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff;transform:scale(0);transition:transform .15s}
+.multi .o .mk::after{width:11px;height:6px;border-radius:0;background:none;border:solid #fff;border-width:0 0 2.5px 2.5px;transform:rotate(-45deg) scale(0);margin-top:-2px}
+.o:has(input:checked){background:var(--sprout);border-color:var(--sprout);color:#fff}
+.o:has(input:checked) .mk{background:rgba(255,255,255,.22);border-color:#fff}
+.o:has(input:checked) .mk::after{transform:scale(1)}
+.multi .o:has(input:checked) .mk::after{transform:rotate(-45deg) scale(1)}
+.o:has(input:focus-visible){outline:3px solid var(--ring);outline-offset:2px}
+.o:has(input:disabled){opacity:.45;cursor:not-allowed}
+.o input[type=text],.o input[type=tel]{position:static;opacity:1;pointer-events:auto}
+.free{flex:1;min-width:0;border:0;border-bottom:1.5px dashed var(--mut);background:transparent;color:inherit;font:inherit;padding:2px 4px}
+.free::placeholder{color:var(--mut)}
+.o:has(input:checked) .free::placeholder{color:#d9f2e5}
+.o:has(input:checked) .free{border-color:#fff}
+textarea,.tel{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--paper);color:var(--ink);font:inherit;margin-bottom:8px}
+textarea{min-height:110px;resize:vertical}
+textarea:focus,.tel:focus{outline:3px solid var(--ring);outline-offset:1px}
+.tel{direction:ltr;text-align:right}
+.sub2{font-size:.88rem;color:var(--mut);margin:0 2px 8px}
+.nav{display:flex;gap:10px;margin-top:6px}
+.nav button{border:0;border-radius:16px;padding:15px;font:600 1.05rem var(--h);cursor:pointer}
+.nav .next{flex:1;background:var(--deep);color:#fff}
+.nav .back{background:var(--soft);color:var(--ink);padding-inline:22px}
+.nav button:disabled{opacity:.6}
+.nav button:focus-visible,.go:focus-visible,.share:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+.err{min-height:1.6em;text-align:center;color:var(--coral);font-weight:500;margin:10px 0 0}
+.done{text-align:center;padding:30px 8px}
+.done svg{width:150px;height:170px}
+.done h2{font-size:1.6rem;margin:8px 0}
+.done p{color:var(--mut);max-width:26em;margin:0 auto 18px}
+.share{border:2px solid var(--sprout);color:var(--sprout);background:transparent;border-radius:14px;padding:11px 22px;font:600 1rem var(--h);cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+svg .g{transition:height .5s,y .5s,transform .5s,opacity .4s}
+</style>
+</head>
+<body>
+
+<!-- الغلاف -->
+<section class="hero" id="hero">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="hero-in">
+    <h1 class="brand" id="brand">نمو</h1>
+    <p class="tag">نلعب، نتعلم، وننمو معًا</p>
+    <p class="lead">عزيزي ولي الأمر، هذا الاستطلاع يساعدنا في التعرف على المهارات التي قد يحتاج طفلك دعمًا إضافيًا فيها، من ملاحظاتك اليومية في البيت. ورأيك يحدد كيف نبني تطبيق «نمو» ليناسب أطفالنا فعلًا.</p>
+    <ul class="facts"><li>٢٨ سؤالًا</li><li>حوالي ٥ دقائق</li><li>بدون أسماء</li></ul>
+    <button class="go" id="start">ابدأ الاستطلاع</button>
+    <p class="privacy">إجاباتك سرية وتُستخدم لتطوير الخدمة فقط.</p>
+    <svg class="ground" viewBox="0 0 400 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <path d="M0 150V96c60-26 120-20 200-4s140 12 200-8v66z" fill="#1b6b5a"/>
+      <path d="M0 150v-30c70-18 130-14 200 0s140 6 200-6v36z" fill="#27905f"/>
+      <g transform="translate(250 100)"><path d="M0 0C0-26 2-48 0-70" stroke="#9fe0bd" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M0-40C14-58 36-58 46-72 46-48 26-34 0-40Z" fill="#9fe0bd"/>
+      <path d="M0-24C-14-40-34-40-44-52-44-30-24-18 0-24Z" fill="#6fd0a0"/>
+      <circle cx="0" cy="-76" r="9" fill="#f5c842"/></g>
+      <g transform="translate(110 120)" opacity=".9"><path d="M0 0C0-14 1-24 0-34" stroke="#9fe0bd" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M0-18C8-30 22-30 28-38 28-24 16-16 0-18Z" fill="#9fe0bd"/></g>
+    </svg>
+  </div>
+</section>
+
+<!-- الاستبيان -->
+<main id="survey" hidden>
+  <div class="top">
+    <svg viewBox="0 0 120 140" aria-hidden="true">
+      <ellipse cx="60" cy="126" rx="38" ry="9" fill="#8a6a4a"/>
+      <rect class="g" id="stem" x="57" width="6" rx="3" fill="#27905f" y="118" height="8"/>
+      <g id="leaves"></g>
+      <g class="g" id="bloom" opacity="0"><circle r="9" fill="#f5c842"/><circle r="4" fill="#e8664a"/></g>
+    </svg>
+    <div class="meta">
+      <div class="row1"><b id="stepName">الخطوة ١ من ٥</b><span id="prog">٠ من ٢٨</span></div>
+      <div class="bar"><i id="fill"></i></div>
+    </div>
+  </div>
+  <div id="steps"></div>
+  <div class="err" id="err" role="alert"></div>
+  <section class="done" id="done" hidden>
+    <svg viewBox="0 0 120 140" aria-hidden="true">
+      <ellipse cx="60" cy="126" rx="38" ry="9" fill="#8a6a4a"/>
+      <rect x="57" y="34" width="6" height="92" rx="3" fill="#27905f"/>
+      <path d="M60 104c14-10 28-6 32-14-2 16-16 22-32 14Z" fill="#27905f"/><path d="M60 86c-14-10-28-6-32-14 2 16 16 22 32 14Z" fill="#4cc58b"/>
+      <path d="M60 68c14-10 28-6 32-14-2 16-16 22-32 14Z" fill="#27905f"/><path d="M60 50c-14-10-28-6-32-14 2 16 16 22 32 14Z" fill="#4cc58b"/>
+      <g transform="translate(60 30)"><circle r="14" fill="#f5c842"/><circle r="6" fill="#e8664a"/></g>
+    </svg>
+    <h2>شكرًا لك، زرعت معنا بذرة</h2>
+    <p>تم تسجيل إجاباتك. رأيك سيساعدنا في بناء «نمو» بما يناسب أطفالنا.</p>
+    <button class="share" id="share" hidden>شارك الاستطلاع مع ولي أمر آخر</button>
+  </section>
+</main>
+
+<script>
+/* ======= إعدادات ======= */
+const APP_NAME = "نمو";   // غيّر اسم التطبيق من هنا
+const SCRIPT_URL = "";    // الصق هنا رابط Google Apps Script (Web app URL)
+/* ====================== */
+
+const freq=["دائمًا","أحيانًا","نادرًا","لا يستطيع"];
+const sev=["لا","أحيانًا","كثيرًا","في معظم الأحيان"];
+const STEPS=[
+ {h:"البيانات الأساسية",s:"سؤال واحد فقط لنبدأ",q:[
+  {t:"ما الصف الدراسي لطفلك؟",o:["الصف الأول الابتدائي","الصف الثاني الابتدائي","الصف الثالث الابتدائي"]}]},
+ {h:"المهارات الأكاديمية",s:"القراءة والكتابة والحساب",q:[
+  {t:"هل يستطيع طفلك التعرف على الحروف التي سبق أن تعلمها وتسميتها؟",o:freq},
+  {t:"هل يخلط طفلك بين الحروف المتشابهة في الشكل، مثل (ب، ت، ث)؟",o:["لا يخلط بينها","أحيانًا","كثيرًا","في معظم الأحيان"]},
+  {t:"هل يستطيع طفلك قراءة الكلمات المناسبة لما درسه دون تهجئة كل حرف على حدة؟",o:["بسهولة","ببطء","يحتاج إلى مساعدة متكررة","يجد صعوبة في قراءة معظم الكلمات"]},
+  {t:"هل يستطيع طفلك فهم معنى جملة قصيرة يقرأها والإجابة عن سؤال متعلق بها؟",o:freq},
+  {t:"هل يحذف طفلك حروفًا أو يضيفها أو يغير ترتيبها عند نسخ الكلمات أو كتابتها؟",o:["لا يحدث ذلك","أحيانًا","كثيرًا","في معظم الأحيان"]},
+  {t:"هل يستطيع طفلك كتابة الكلمات التي سبق أن تعلمها عند إملائها عليه؟",o:["بسهولة","مع أخطاء بسيطة","مع أخطاء متكررة","يجد صعوبة في كتابة معظم الكلمات"]},
+  {t:"هل يستطيع طفلك التعرف على الأرقام التي درسها وقراءتها بصورة صحيحة؟",o:["دائمًا","أحيانًا","نادرًا","يجد صعوبة في معظم الأرقام"]},
+  {t:"هل يستطيع طفلك حل مسائل الجمع والطرح المناسبة لما درسه؟",o:["بمفرده","باستخدام الأصابع أو الأدوات المحسوسة","يحتاج إلى شرح متكرر","يجد صعوبة في معظم المسائل"]}]},
+ {h:"المهارات النمائية",s:"السمع والانتباه واللغة والحركة",q:[
+  {t:"هل يستطيع طفلك التمييز بين الأصوات المتشابهة وتحديد الصوت الأول في كلمة مألوفة؟",o:["بسهولة","أحيانًا","يحتاج إلى مساعدة","يجد صعوبة متكررة"]},
+  {t:"هل يجد طفلك صعوبة في فهم التعليمات الشفهية وتنفيذها، مثل إحضار الكتاب ثم وضعه على المكتب؟",o:["لا","أحيانًا","كثيرًا","يحتاج إلى تكرار التعليمات باستمرار"]},
+  {t:"هل يجد طفلك صعوبة في التعبير عن أفكاره أو سرد موقف حدث له بجمل واضحة ومترابطة؟",o:["لا","أحيانًا","كثيرًا","يجد صعوبة واضحة"]},
+  {t:"هل يجد الآخرون صعوبة في فهم كلام طفلك بسبب طريقة نطقه لبعض الأصوات أو الكلمات؟",o:["لا","أحيانًا","كثيرًا","يصعب فهم كلامه في معظم الأحيان"]},
+  {t:"هل ينسى طفلك المعلومات أو التعليمات التي تعلمها رغم تكرارها ومراجعتها معه؟",o:["نادرًا","أحيانًا","كثيرًا","بصورة متكررة جدًا"]},
+  {t:"هل يتشتت انتباه طفلك بسهولة أثناء أداء الواجبات أو الأنشطة المنزلية؟",o:["نادرًا","أحيانًا","كثيرًا","في معظم الأوقات"]},
+  {t:"هل يجد طفلك صعوبة في التمييز بين الاتجاهات والمفاهيم المكانية، مثل اليمين واليسار، وفوق وتحت؟",o:["لا","أحيانًا","كثيرًا","يجد صعوبة واضحة"]},
+  {t:"هل يجد طفلك صعوبة في التحكم بالقلم أو التلوين داخل الحدود أو استخدام المقص في الأنشطة المناسبة لعمره؟",o:["لا","أحيانًا","كثيرًا","يجد صعوبة واضحة"]}]},
+ {h:"التعلم والاستقلالية",s:"كيف يتعامل طفلك مع الواجبات والمهام",q:[
+  {t:"هل يحتاج طفلك إلى مساعدة مستمرة حتى ينتهي من واجباته المدرسية؟",o:["لا، يؤديها بمفرده","يحتاج إلى متابعة بسيطة","يحتاج إلى مساعدة متكررة","لا يكملها دون مساعدة مستمرة"]},
+  {t:"هل تلاحظ أن طفلك يشعر بالإحباط أو يرفض أداء المهام عندما يواجه صعوبة في القراءة أو الكتابة أو الحساب؟",o:["لا","أحيانًا","كثيرًا","في معظم المواقف"]},
+  {t:"ما أكثر المهارات التي ترى أن طفلك يحتاج إلى مساعدة إضافية فيها؟",hint:"يمكن اختيار أكثر من إجابة",multi:true,other:true,optional:true,o:["التعرف على الحروف والقراءة","فهم المقروء","الكتابة والإملاء","الأرقام والحساب","الانتباه والتركيز","الذاكرة وتذكر التعليمات","فهم اللغة والتعبير بالكلام","نطق الأصوات والكلمات","المهارات الحركية الدقيقة","المفاهيم المكانية والاتجاهات","الاستقلالية في أداء الواجبات"]}]},
+ {h:"عن تطبيق «نمو»",s:"ساعدنا نبنيه صح",note:"نعمل على تطبيق «نمو»: ألعاب وتمارين تدريبية لمساعدة الأطفال في صعوبات التعلم، يستخدمها الطفل في البيت مع ولي الأمر أو مع الأخصائي أثناء الجلسات، مع متابعة مستمرة لتقدمه. رأيك هنا يحدد ما نبدأ به.",q:[
+  {t:"هل يستخدم طفلك الموبايل أو التابلت؟",o:["يوميًا","عدة مرات في الأسبوع","نادرًا","لا يستخدمه"]},
+  {t:"لو توفر تطبيق بألعاب وتمارين تدريبية تساعد طفلك في المهارات التي سألنا عنها، ما مدى اهتمامك به؟",o:["مهتم جدًا","مهتم","محايد","غير مهتم"]},
+  {t:"أين تفضل أن يستخدم طفلك هذا التطبيق؟",o:["في البيت مع ولي الأمر","مع الأخصائي أثناء الجلسات","في الحالتين"]},
+  {t:"ما أهم المميزات التي تريدها في التطبيق؟",hint:"اختر حتى ٣",multi:true,max:3,o:["ألعاب وتمارين تدريبية ممتعة للطفل","تقييم مبدئي وكشف مبكر للصعوبات","متابعة تقدم الطفل وتقارير دورية","تواصل مباشر مع الأخصائي","خطة تمارين مخصصة لحالة طفلي","إرشادات ونصائح لولي الأمر","استخدامه أثناء الجلسة مع الأخصائي","مكافآت وتحفيز للطفل"]},
+  {t:"كم من الوقت يناسب طفلك للتدريب يوميًا؟",o:["١٠ دقائق","من ١٥ إلى ٢٠ دقيقة","٣٠ دقيقة أو أكثر"]},
+  {t:"ما الاشتراك الشهري الذي تراه مناسبًا؟",o:["أريده مجانيًا فقط","أقل من ١٠٠ جنيه","من ١٠٠ إلى ٣٠٠ جنيه","من ٣٠٠ إلى ٥٠٠ جنيه","أكثر من ٥٠٠ جنيه"]},
+  {t:"هل تحب تجربة التطبيق قبل إطلاقه وإبداء رأيك فيه؟",beta:true,o:["نعم، يسعدني ذلك","ربما لاحقًا","لا، شكرًا"]},
+  {t:"ما اقتراحاتك، أو ما الذي تتمنى أن يقدمه لك التطبيق؟",text:true,optional:true}]}
+];
+
+const ar=n=>Number(n).toLocaleString("ar-EG");
+document.getElementById("brand").textContent=APP_NAME;
+document.title=APP_NAME+" | استطلاع أولياء الأمور";
+document.querySelectorAll(".brand").forEach(e=>e.textContent=APP_NAME);
+
+const ALL=[];let n=0;
+const stepsEl=document.getElementById("steps");
+STEPS.forEach((s,si)=>{
+  const sec=document.createElement("section");sec.className="step";sec.hidden=true;s.el=sec;
+  sec.innerHTML='<h2></h2><p class="sub"></p>';
+  sec.querySelector("h2").textContent=s.h;sec.querySelector(".sub").textContent=s.s;
+  if(s.note){const d=document.createElement("div");d.className="note";d.textContent=s.note;sec.appendChild(d);}
+  s.q.forEach(q=>{
+    n++;q.n=n;q.step=si;ALL.push(q);
+    const d=document.createElement("div");d.className="q"+(q.multi?" multi":"");q.el=d;
+    const t=document.createElement("div");t.className="t";
+    const num=document.createElement("em");num.textContent=ar(n);
+    const tx=document.createElement("div");tx.textContent=q.t;
+    if(q.hint){const h=document.createElement("span");h.className="hint";h.textContent=q.hint;tx.appendChild(h);}
+    t.appendChild(num);t.appendChild(tx);d.appendChild(t);
+    if(q.text){
+      const ta=document.createElement("textarea");ta.name="q"+n;ta.placeholder="اكتب هنا (اختياري)";
+      ta.addEventListener("input",update);d.appendChild(ta);
+    }else{
+      const box=document.createElement("div");box.className="opts";
+      q.o.forEach(o=>{
+        const l=document.createElement("label");l.className="o";
+        const i=document.createElement("input");i.type=q.multi?"checkbox":"radio";i.name="q"+n;i.value=o;
+        i.addEventListener("change",()=>{limit(q);update();if(q.beta)togglePhone(q);});
+        const mk=document.createElement("span");mk.className="mk";
+        l.appendChild(i);l.appendChild(mk);l.appendChild(document.createTextNode(o));box.appendChild(l);
+      });
+      if(q.other){
+        const l=document.createElement("label");l.className="o";
+        const i=document.createElement("input");i.type="checkbox";i.name="q"+n;i.value="__other";
+        const mk=document.createElement("span");mk.className="mk";
+        const f=document.createElement("input");f.type="text";f.className="free";f.name="other"+n;f.placeholder="مهارات أخرى: اكتبها هنا";
+        f.addEventListener("input",()=>{if(f.value.trim())i.checked=true;update();});
+        i.addEventListener("change",update);
+        l.appendChild(i);l.appendChild(mk);l.appendChild(f);box.appendChild(l);
+      }
+      d.appendChild(box);
+      if(q.beta){
+        const w=document.createElement("div");w.hidden=true;w.style.marginTop="10px";q.phoneWrap=w;
+        w.innerHTML='<p class="sub2">اترك رقم واتساب للتواصل معك بخصوص النسخة التجريبية فقط (اختياري).</p>';
+        const p=document.createElement("input");p.type="tel";p.className="tel";p.inputMode="tel";p.placeholder="01xxxxxxxxx";p.autocomplete="tel";
+        q.phone=p;w.appendChild(p);d.appendChild(w);
+      }
+    }
+    sec.appendChild(d);
+  });
+  const nav=document.createElement("div");nav.className="nav";
+  if(si>0){const b=document.createElement("button");b.className="back";b.type="button";b.textContent="السابق";b.onclick=()=>go(si-1);nav.appendChild(b);}
+  const nx=document.createElement("button");nx.className="next";nx.type="button";
+  nx.textContent=si===STEPS.length-1?"إرسال الإجابات":"التالي";
+  nx.onclick=()=>si===STEPS.length-1?submit(nx):next(si);
+  nav.appendChild(nx);sec.appendChild(nav);
+  stepsEl.appendChild(sec);
+});
+
+function limit(q){
+  if(!q.max)return;
+  const all=[...q.el.querySelectorAll('input[name="q'+q.n+'"]')];
+  const c=all.filter(x=>x.checked).length;
+  all.forEach(x=>{x.disabled=!x.checked&&c>=q.max;});
+}
+function togglePhone(q){
+  const on=val(q).startsWith("نعم");
+  q.phoneWrap.hidden=!on;if(!on)q.phone.value="";
+}
+function val(q){
+  if(q.text)return q.el.querySelector("textarea").value.trim();
+  const els=[...q.el.querySelectorAll('input[name="q'+q.n+'"]:checked')];
+  if(q.multi){
+    const a=els.map(e=>e.value).filter(v=>v!=="__other");
+    const f=q.el.querySelector('input[name="other'+q.n+'"]');
+    if(els.some(e=>e.value==="__other")&&f&&f.value.trim())a.push("أخرى: "+f.value.trim());
+    return a.join(" | ");
+  }
+  return els[0]?els[0].value:"";
+}
+
+/* ---- النبتة ---- */
+const LEAVES=[{y:104,s:1},{y:88,s:-1},{y:72,s:1},{y:56,s:-1}];
+const lg=document.getElementById("leaves");
+LEAVES.forEach(L=>{
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+  g.setAttribute("class","g");g.dataset.y=L.y;g.dataset.s=L.s;
+  g.innerHTML='<path d="M0 0C14-10 28-6 32-14 30 2 14 8 0 0Z" fill="'+(L.s>0?"#27905f":"#4cc58b")+'"/>';
+  g.style.transformOrigin="0 0";g.style.opacity=0;
+  g.setAttribute("transform","translate(60 "+L.y+") scale("+L.s+" 0)");
+  lg.appendChild(g);
+});
+function grow(p){
+  const h=8+p*88,top=118-h;
+  const st=document.getElementById("stem");st.setAttribute("height",h);st.setAttribute("y",top);
+  lg.querySelectorAll("g").forEach(g=>{
+    const y=+g.dataset.y,s=+g.dataset.s,show=(118-y)<=h-6;
+    g.setAttribute("transform","translate(60 "+y+") scale("+s+" "+(show?1:0)+")");
+    g.style.opacity=show?1:0;
+  });
+  const b=document.getElementById("bloom");
+  b.setAttribute("transform","translate(60 "+(top-4)+")");b.style.opacity=p>=1?1:0;
+}
+function update(){
+  const done=ALL.filter(q=>val(q)).length;
+  document.getElementById("prog").textContent=ar(done)+" من "+ar(ALL.length);
+  document.getElementById("fill").style.width=(done/ALL.length*100)+"%";
+  grow(done/ALL.length);
+}
+
+/* ---- التنقل ---- */
+let cur=-1;
+function go(i){
+  cur=i;
+  STEPS.forEach((s,k)=>s.el.hidden=k!==i);
+  document.getElementById("stepName").textContent="الخطوة "+ar(i+1)+" من "+ar(STEPS.length);
+  document.getElementById("err").textContent="";
+  window.scrollTo({top:document.getElementById("survey").offsetTop,behavior:"smooth"});
+}
+function check(si){
+  const miss=ALL.filter(q=>q.step===si&&!q.optional&&!val(q));
+  ALL.forEach(q=>q.el.classList.remove("bad"));
+  if(miss.length){
+    miss.forEach(q=>q.el.classList.add("bad"));
+    miss[0].el.scrollIntoView({behavior:"smooth",block:"center"});
+    document.getElementById("err").textContent="من فضلك أجب عن الأسئلة المحددة بالأحمر ("+ar(miss.length)+").";
+    return false;
+  }
+  return true;
+}
+function next(si){if(check(si))go(si+1);}
+document.getElementById("start").onclick=()=>{
+  document.getElementById("hero").hidden=true;
+  document.getElementById("survey").hidden=false;
+  window.scrollTo(0,0);go(0);update();
+};
+
+async function submit(btn){
+  if(!check(STEPS.length-1))return;
+  const err=document.getElementById("err");
+  if(!SCRIPT_URL){err.textContent="لم يتم ربط الاستطلاع بملف البيانات بعد (SCRIPT_URL فارغ).";return;}
+  const bq=ALL.find(q=>q.beta);
+  const headers=["التاريخ والوقت",...ALL.map(q=>q.n+". "+q.t),"رقم التواصل للنسخة التجريبية"];
+  const row=[new Date().toLocaleString("en-GB"),...ALL.map(val),bq.phone.value.trim()];
+  btn.disabled=true;btn.textContent="جاري الإرسال...";
+  try{
+    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({headers,row})});
+    STEPS.forEach(s=>s.el.hidden=true);document.querySelector(".top").hidden=true;err.hidden=true;
+    document.getElementById("done").hidden=false;window.scrollTo({top:0,behavior:"smooth"});
+    if(navigator.share){const sh=document.getElementById("share");sh.hidden=false;
+      sh.onclick=()=>navigator.share({title:APP_NAME,text:"شارك في استطلاع «"+APP_NAME+"» لأولياء الأمور",url:location.href}).catch(()=>{});}
+  }catch(e){
+    err.textContent="تعذّر الإرسال. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.";
+    btn.disabled=false;btn.textContent="إرسال الإجابات";
+  }
+}
+grow(0);
+</script>
+</body>
+</html>
